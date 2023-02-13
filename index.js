@@ -8,8 +8,10 @@ import helmet from "helmet";
 import morgan from "morgan";
 import path from "path";
 import { fileURLToPath } from "url";
+
 import authRoutes from "./routes/auth";
-import { register } from "./controllers/auth"
+import userRoutes from "./routes/users";
+import { register } from "./controllers/auth";
 
 // Config
 const __filename = fileURLToPath(import.meta.url);
@@ -43,6 +45,7 @@ app.post("/auth/register", upload.single("picture"), register);
 
 //Routes
 app.use("/auth", authRoutes);
+app,use("/users", userRoutes);
 
 //Mongoose Setup
 const PORT = process.env.PORT || 6000;
