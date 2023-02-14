@@ -11,7 +11,10 @@ import { fileURLToPath } from "url";
 
 import authRoutes from "./routes/auth";
 import userRoutes from "./routes/users";
+import postRoutes from "./routes/posts";
 import { register } from "./controllers/auth";
+import { createPost } from "./controllers/posts";
+import { verifyToken } from "./middleware/auth";
 
 // Config
 const __filename = fileURLToPath(import.meta.url);
@@ -42,10 +45,12 @@ const upload = multer({ storage });
 
 //Routes with files
 app.post("/auth/register", upload.single("picture"), register);
+app.post("/posts", verifyToken, upload.single("picture"), createPost);
 
 //Routes
 app.use("/auth", authRoutes);
-app,use("/users", userRoutes);
+app.use("/users", userRoutes);
+app.use("/posts", postRoutes);
 
 //Mongoose Setup
 const PORT = process.env.PORT || 6000;
